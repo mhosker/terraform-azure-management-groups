@@ -24,8 +24,8 @@ resource "azurerm_management_group" "level_1" {
 
 locals {
   level_2 = zipmap(
-    flatten([for key, value in var.management_groups : formatlist("${key}/%s", keys(value.children)) if can(value.children)]),
-    flatten([for value in var.management_groups : values(value.children) if can(value.children)])
+    flatten([for key, value in var.management_groups : formatlist("${key}/%s", keys(value.children)) if value.children != null]),
+    flatten([for value in var.management_groups : values(value.children) if value.children != null])
   )
 }
 
@@ -45,8 +45,8 @@ resource "azurerm_management_group" "level_2" {
 
 locals {
   level_3 = zipmap(
-    flatten([for key, value in local.level_2 : formatlist("${key}/%s", keys(value.children)) if can(value.children)]),
-    flatten([for value in local.level_2 : values(value.children) if can(value.children)])
+    flatten([for key, value in local.level_2 : formatlist("${key}/%s", keys(value.children)) if value.children != null]),
+    flatten([for value in local.level_2 : values(value.children) if value.children != null])
   )
 }
 
@@ -66,8 +66,8 @@ resource "azurerm_management_group" "level_3" {
 
 locals {
   level_4 = zipmap(
-    flatten([for key, value in local.level_3 : formatlist("${key}/%s", keys(value.children)) if can(value.children)]),
-    flatten([for value in local.level_3 : values(value.children) if can(value.children)])
+    flatten([for key, value in local.level_3 : formatlist("${key}/%s", keys(value.children)) if value.children != null]),
+    flatten([for value in local.level_3 : values(value.children) if value.children != null])
   )
 }
 
@@ -87,8 +87,8 @@ resource "azurerm_management_group" "level_4" {
 
 locals {
   level_5 = zipmap(
-    flatten([for key, value in local.level_4 : formatlist("${key}/%s", keys(value.children)) if can(value.children)]),
-    flatten([for value in local.level_4 : values(value.children) if can(value.children)])
+    flatten([for key, value in local.level_4 : formatlist("${key}/%s", keys(value.children)) if value.children != null]),
+    flatten([for value in local.level_4 : values(value.children) if value.children != null])
   )
 }
 
@@ -108,8 +108,8 @@ resource "azurerm_management_group" "level_5" {
 
 locals {
   level_6 = zipmap(
-    flatten([for key, value in local.level_5 : formatlist("${key}/%s", keys(value.children)) if can(value.children)]),
-    flatten([for value in local.level_5 : values(value.children) if can(value.children)])
+    flatten([for key, value in local.level_5 : formatlist("${key}/%s", keys(value.children)) if value.children != null]),
+    flatten([for value in local.level_5 : values(value.children) if value.children != null])
   )
 }
 
